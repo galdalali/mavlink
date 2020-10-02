@@ -2209,6 +2209,76 @@
         <param index="6">User defined</param>
         <param index="7">User defined</param>
       </entry>
+      <entry value="32000" name="MAV_CMD_DO_SHUTTER">
+        <description>Number of shutter types: 0-Take_photo, 1-S1 Shooting, 2-AF_Shutter, 3-Continuous_Shooting, 4-Short Swipe, 5-Large Swipt</description>
+        <param index="1" label="shutter_type">read description</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry>
+      <entry value="32001" name="MAV_CMD_DO_SET_APERTURE">
+        <description>Change aperture</description>
+        <param index="1" label="f_number">Aperture</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry>
+      <entry value="32002" name="MAV_CMD_DO_SET_ISO">
+        <description>Change iso</description>
+        <param index="1" label="iso">ISO</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry>
+      <entry value="32003" name="MAV_CMD_DO_SET_SHUTTER_SPEED">
+        <description>Change shutter speed</description>
+        <param index="1" label="shutter_speed">shutter speed</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry>
+      <entry value="32004" name="MAV_CMD_DO_SET_FOCUS_MODE">
+        <description>Change Focus mode</description>
+        <param index="1" label="focus_mode">focus_mode</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry>
+      <entry value="32005" name="MAV_CMD_DO_SET_EXPOSURE_MODE">
+        <description>Change exposure program mode</description>
+        <param index="1" label="exposure_program_mode">exposure_program_mode</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry>  
+      <entry value="32006" name="MAV_CMD_DO_MOVIE_REC_BUTTON">
+        <description>execute mMovie Rec Button</description>
+        <param index="1" label="Movie_Rec_Button">Movie_Rec_Button</param>
+        <param index="2">Reserved, send 0</param>
+        <param index="3">Reserved, send 0</param>
+        <param index="4">Reserved, send 0</param>
+        <param index="5">Reserved, send 0</param>
+        <param index="6">Reserved, send 0</param>
+        <param index="7">Reserved, send 0</param>
+      </entry> 
       <!-- END of user range (31000 to 31999) -->
     </enum>
     <enum name="MAV_DATA_STREAM">
@@ -5209,12 +5279,63 @@
       <field type="uint32_t" name="active" display="bitmask">Active outputs</field>
       <field type="float[32]" name="actuator">Servo / motor output array values. Zero values indicate unused channels.</field>
     </message>
+    <message id="416" name="SONY_CAMERA_STATUS">
+      <description>Sony camera periodic status</description>
+      <field type="uint16_t" name="SOM_CPU_TEMP" units="deg">SOM_CPU_TEMP</field>
+      <field type="uint16_t" name="SOM_GPU_TEMP" units="deg">SOM_GPU_TEMP</field>
+      <field type="uint16_t" name="Aperture" units="">Aperture</field>
+      <field type="uint16_t" name="ISO" units="">ISO</field>
+      <field type="uint16_t" name="Shutter_Speed" units="">Shutter Speed</field>
+      <field type="uint16_t" name="Exposure_Program_Mode">Exposure Program Mode</field>
+      <field type="uint16_t" name="Focus_Mode">Focus Mode</field>
+      <field type="uint16_t" name="Mode">Movie or camera?</field>
+    </message>
     <!-- Rover specific messages -->
     <message id="9000" name="WHEEL_DISTANCE">
       <description>Cumulative distance traveled for each reported wheel.</description>
       <field type="uint64_t" name="time_usec" units="us">Timestamp (synced to UNIX time or since system boot).</field>
       <field type="uint8_t" name="count">Number of wheels reported.</field>
       <field type="double[16]" name="distance" units="m">Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be agreed/understood by the endpoints.</field>
+    </message>
+    <message id="11042" name="TRACKER_INFO">
+      <description>Tracker information</description>
+        <field type="uint8_t" name="InTrack" units="1 - command to abort tracking">Track abort command</field>
+        <field type="uint8_t" name="InReTrack" units="1 - command to track">Track command</field>
+        <field type="uint8_t" name="InAdjust" units="Pixel">X Pixel coordinate</field>
+        <field type="uint8_t" name="TrackLoss" units="1 - object lost">object lost while tracking</field>
+        <field type="uint16_t" name="TrackErrorPixels_Az" units="Pixeles on the original image size">X Pixel coordinate</field>
+        <field type="uint16_t" name="TrackErrorPixels_El" units="Pixeles on the original image size">Y Pixel coordinate</field>
+    </message>
+    <message id="11043" name="VIDEO_INFO">
+      <description>Video information</description>
+        <field type="uint16_t" name="Width" units="Pixels">Width of the original image</field>
+        <field type="uint16_t" name="Height" units="Pixels">Height of the original image</field>
+        <field type="float" name="HFOV" units="degrees">Horizontal field of view</field>
+        <field type="float" name="VFOV" units="degrees">Vertical field of view</field>
+        <field type="uint8_t" name="StreamingState" units="StreamingState ENUM">Streaming State</field>
+        <field type="uint8_t" name="RecordingState" units="RecordingState ENUM">Recording State</field>
+    </message>
+    <message id="11044" name="DETECTION_INFO">
+      <description>Object Detection information</description>
+        <field type="uint16_t[10]" name="X_Pixel_coordinate_array" units="Pixel">X Pixel coordinates array in the original resolution</field>
+        <field type="uint16_t[10]" name="Y_Pixel_coordinate_array" units="Pixel">Y Pixel coordinates array in the original resolution</field>
+        <field type="uint8_t[10]" name="label" units="Label ENUM">Type of object</field>
+    </message>
+    <message id="11045" name="TRACKER_CONTROL">
+      <description>Tracker control</description>
+        <field type="uint8_t" name="Track_Abort_Cmd" units="1 - command to abort tracking">Track abort command</field>
+        <field type="uint8_t" name="Track_Cmd" units="1 - command to track">Track command</field>
+        <field type="uint8_t" name="Retrack_Cmd" units="1 - command to retrack">Retrack command</field>
+        <field type="uint8_t" name="Adjust_Cmd" units="1 - command to adjust tracker">Adjust command</field>
+        <field type="int8_t" name="Track_Gate_Cmd">count of telemetry packets received (wraps at 65535).</field>
+        <field type="uint16_t" name="X_Pixel_Coordinate_Cmd" units="Pixeles on the original image size">X Pixel coordinate</field>
+        <field type="uint16_t" name="Y_Pixel_Coordinate_Cmd" units="Pixeles on the original image size">Y Pixel coordinate</field>
+    </message>
+    <message id="11046" name="VIDEO_CONTROL">
+      <description>Video Control</description>
+        <field type="int8_t" name="Zoom_Cmd" units="0 - do nothing, 1 - ZOOM_IN, -1 - ZOOM_OUT">Digital zoom command</field>
+        <field type="uint8_t" name="Record_Cmd" units="0 - do nothing, 1 - Record local video">Video recording command</field>
+        <field type="uint8_t" name="ActivateObjectDetection_Cmd" units="0 - Disable, 1 - enable. Disabled by default">Enable or disable object detection command</field>
     </message>
   </messages>
 </mavlink>
